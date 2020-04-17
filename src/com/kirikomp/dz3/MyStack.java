@@ -3,9 +3,9 @@ package com.kirikomp.dz3;
 import java.util.EmptyStackException;
 
 public class MyStack<Item> {
-    private Item[] list;
+    Item[] list;
     private int size;
-    private final int DEFAULT_CAPACITY = 100;
+    private final int DEFAULT_CAPACITY = 10;
 
     public MyStack(int capacity) {
         if (capacity <= 0) {
@@ -54,5 +54,9 @@ public class MyStack<Item> {
         Item[] tempArr = (Item[]) new Object[newCapacity];
         System.arraycopy(list,0,tempArr,0,size);
         list = tempArr;
+    }
+
+    public int size() {
+        return size;
     }
 }
