@@ -1,5 +1,8 @@
 package com.kirikomp.dz4;
-public class MyLinkedList<Item> {
+
+import java.util.Iterator;
+
+public class MyLinkedList<Item> implements Iterable<Item> {
 
     private Node first;
     private Node last;
@@ -8,6 +11,36 @@ public class MyLinkedList<Item> {
     public MyLinkedList() {
         this.first = null;
         this.last = null;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iter();
+    }
+
+    private class Iter implements Iterator<Item> {
+        Node current = new Node(null, first);
+
+        @Override
+        public boolean hasNext() {
+            return current.getNext() != null;
+        }
+
+        @Override
+        public Item next() {
+            current = current.next;
+            return (Item) current.getValue();
+        }
+
+        @Override
+        public void remove() {
+            if (current.getNext() != null) {
+                current.getNext().setPrevious(current.getPrevious());
+            }
+            if (current.getPrevious() !=null) {
+                current.getPrevious().setNext(current.getNext());
+            }
+        }
     }
 
     public boolean isEmpty() {
@@ -64,12 +97,12 @@ public class MyLinkedList<Item> {
         Node oldFisrt = first;
         first = first.next;
         size--;
-        if(isEmpty()) {
+        if (isEmpty()) {
             last = null;
         } else {
             first.setPrevious(null);
         }
-        return (Item)oldFisrt.getValue();
+        return (Item) oldFisrt.getValue();
     }
 
     public Item removeLast() {
@@ -171,6 +204,7 @@ public class MyLinkedList<Item> {
     public boolean contains(Item item) {
         return indexOf(item) > -1;
     }
+
 
     class Node<Item> {
         private Item value;
